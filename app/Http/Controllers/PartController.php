@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Part;
+use App\Models\Car;
 
 class PartController extends Controller
 {
@@ -11,15 +13,8 @@ class PartController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $parts = Part::all();
+        return response()->json($parts);
     }
 
     /**
@@ -27,38 +22,63 @@ class PartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'serialnumber' => 'required|unique:parts,serialnumber',
+            'car_id' => 'required|exists:cars,id'
+        ]);
+
+        $part = Part::create($request->all());
+        return response()->json($part, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
-    }
+        $part = Part::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        if (!$part) {
+            return response()->json(['message' => 'Part not found'], 404);
+        }
+
+        return response()->json($part);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $part = Part::find($id);
+
+        if (!$part) {
+            return response()->json(['message' => 'Part not found'], 404);
+        }
+
+        $request->validate([
+            'name' => 'required',
+            'serialnumber' => 'required|unique:parts,serialnumber,' . $id,
+            'car_id' => 'required|exists:cars,id'
+        ]);
+
+        $part->update($request->all());
+        return response()->json($part);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $part = Part::find($id);
+
+        if (!$part) {
+            return response()->json(['message' => 'Part not found'], 404);
+        }
+
+        $part->delete();
+        return response()->json(['message' => 'Part deleted successfully']);
     }
 }
