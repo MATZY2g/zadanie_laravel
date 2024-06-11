@@ -5,44 +5,40 @@
         <button type="button" class="btn-close" aria-label="Close" @click="hideAlert"></button>
       </div>
     </div>
-</template>
+  </template>
   
-<script>
+  <script>
   export default {
-    name: 'AlertComponent', // Názov komponentu
+    name: 'AlertComponent',
     data() {
       return {
-        message: '', // Správa, ktorá sa zobrazí v alerte
-        type: 'success', // Typ alertu ('success', 'danger', atď.)
-        visible: false, // Viditeľnosť alertu
+        message: '',
+        type: 'success', 
+        visible: false,
       };
     },
     methods: {
-      // Metóda na zobrazenie alertu s danou správou a typom
       showAlert(message, type = 'success') {
-        this.message = message; // Nastavenie správy
-        this.type = type; // Nastavenie typu alertu
-        this.visible = true; // Nastavenie viditeľnosti alertu na true
-        // Skrytie alertu po 3 sekundách
+        this.message = message;
+        this.type = type;
+        this.visible = true;
         setTimeout(() => {
-          this.visible = false; // Nastavenie viditeľnosti alertu na false
+          this.visible = false;
         }, 3000);
       },
-      // Metóda na okamžité skrytie alertu
       hideAlert() {
-        this.visible = false; // Nastavenie viditeľnosti alertu na false
+        this.visible = false;
       }
     }
   };
-</script>
+  </script>
   
-  
-<style scoped>
+  <style scoped>
   .alert-container {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 1050;
   }
-</style>
+  </style>
   

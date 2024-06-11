@@ -105,24 +105,24 @@
 </template>
 
 <script>
-import axios from 'axios'; // Importovanie axios pre HTTP požiadavky
-import AlertComponent from './AlertComponent.vue'; // Importovanie komponentu AlertComponent
+import axios from 'axios';
+import AlertComponent from './AlertComponent.vue';
 
 export default {
-  name: 'Parts', // Názov komponentu
+  name: 'Parts',
   components: {
-    AlertComponent, // Definovanie AlertComponent ako vnútorný komponent
+    AlertComponent,
   },
   data() {
     return {
-      parts: [], // Zoznam dielov
-      cars: [], // Zoznam áut
-      newPart: { // Nový diel na pridanie
+      parts: [],
+      cars: [],
+      newPart: {
         name: '',
         serialnumber: '',
         car_id: ''
       },
-      currentPart: { // Aktuálne upravovaný diel
+      currentPart: {
         id: null,
         name: '',
         serialnumber: '',
@@ -131,70 +131,63 @@ export default {
     };
   },
   created() {
-    // Životný cyklus komponentu - vykoná sa pri vytvorení komponentu
-    this.fetchCars(); // Načítanie áut
-    this.fetchParts(); // Načítanie dielov
+    this.fetchCars();
+    this.fetchParts();
   },
   methods: {
-    // Metóda na načítanie dielov z API
     async fetchParts() {
       try {
-        const response = await axios.get('/api/parts'); // Požiadavka na API pre načítanie dielov
-        this.parts = response.data; // Uloženie dielov do data vlastnosti
+        const response = await axios.get('/api/parts');
+        this.parts = response.data;
       } catch (error) {
-        console.error('Error fetching parts:', error); // Výpis chyby do konzoly v prípade zlyhania
+        console.error('Error fetching parts:', error);
       }
     },
-    // Metóda na načítanie áut z API
     async fetchCars() {
       try {
-        const response = await axios.get('/api/cars'); // Požiadavka na API pre načítanie áut
-        this.cars = response.data; // Uloženie áut do data vlastnosti
+        const response = await axios.get('/api/cars');
+        this.cars = response.data;
       } catch (error) {
-        console.error('Error fetching cars:', error); // Výpis chyby do konzoly v prípade zlyhania
+        console.error('Error fetching cars:', error);
       }
     },
-    // Metóda na pridanie nového dielu
     async addPart() {
       try {
-        const response = await axios.post('/api/parts', this.newPart); // Požiadavka na API pre pridanie dielu
-        this.parts.push(response.data); // Pridanie nového dielu do zoznamu
-        this.newPart = { name: '', serialnumber: '', car_id: '' }; // Resetovanie formulára
-        this.$refs.alertComponent.showAlert('Part added successfully', 'success'); // Zobrazenie alertu o úspechu
+        const response = await axios.post('/api/parts', this.newPart);
+        this.parts.push(response.data);
+        this.newPart = { name: '', serialnumber: '', car_id: '' }; 
+        this.$refs.alertComponent.showAlert('Part added successfully', 'success');
       } catch (error) {
-        console.error('Error adding part', 'danger'); // Výpis chyby do konzoly v prípade zlyhania
+        console.error('Error adding part', 'danger');
       }
     },
-    // Metóda na potvrdenie zmazania dielu
     confirmDelete(partId) {
-      if (confirm('Are you sure you want to delete this part?')) { // Potvrdenie zmazania
-        this.deletePart(partId); // Zmazanie dielu
+      if (confirm('Are you sure you want to delete this part?')) {
+        this.deletePart(partId);
       }
     },
-    // Metóda na zmazanie dielu
     async deletePart(partId) {
       try {
-        await axios.delete(`/api/parts/${partId}`); // Požiadavka na API pre zmazanie dielu
-        this.parts = this.parts.filter(part => part.id !== partId); // Odstránenie dielu zo zoznamu
-        this.$refs.alertComponent.showAlert('Part deleted successfully', 'success'); // Zobrazenie alertu o úspechu
+        await axios.delete(`/api/parts/${partId}`);
+        this.parts = this.parts.filter(part => part.id !== partId);
+        this.$refs.alertComponent.showAlert('Part deleted successfully', 'success');
       } catch (error) {
-        console.error('Error deleting part:', error); // Výpis chyby do konzoly v prípade zlyhania
+        console.error('Error deleting part:', error);
       }
     },
-    // Metóda na otvorenie modálneho okna na úpravu dielu
     openEditModal(part) {
-      this.currentPart = { ...part }; // Nastavenie aktuálne upravovaného dielu
-      let modal = new bootstrap.Modal(document.getElementById('editPartModal')); // Získanie modálneho okna podľa ID
-      modal.show(); // Zobrazenie modálneho okna
+      this.currentPart = { ...part };
+      let modal = new bootstrap.Modal(document.getElementById('editPartModal'));
+      modal.show();
     },
-    // Metóda na aktualizáciu dielu
     async updatePart() {
       try {
-        await axios.put(`/api/parts/${this.currentPart.id}`, this.currentPart); // Požiadavka na API pre aktualizáciu dielu
-        this.fetchParts(); // Aktualizácia zoznamu dielov
-        this.$refs.alertComponent.showAlert('Part updated successfully', 'success'); // Zobrazenie alertu o úspechu
+        await axios.put(`/api/parts/${this.currentPart.id}`, this.currentPart);
+        this.parts.findIndex(part => part.id === this.currentPart.id);
+        this.fetchParts()
+        this.$refs.alertComponent.showAlert('Part updated successfully', 'success');
       } catch (error) {
-        console.error('Error updating part:', error); // Výpis chyby do konzoly v prípade zlyhania
+        console.error('Error updating part:', error);
       }
     }
   }

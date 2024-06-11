@@ -1,41 +1,41 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center mt-5">
-    <div>
-      <AlertComponent ref="alertComponent" />
-      <h1 class="text-center mb-4">Search</h1>
-      <div style="display: flex;">
-        <select v-model="selectedCar" class="form-select" aria-label="Default select example" style="margin-right: 10px;" @change="filterParts">
-          <option value="" selected>-- Select car --</option>
-          <option v-for="car in cars" :key="car.id" :value="car.id">{{ car.name }}</option>
-        </select>
-      </div>
-      <div v-if="filteredParts.length > 0" class="mt-4">
-        <h2 class="text-center mb-4">Parts for Selected Car</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Part Name</th>
-              <th scope="col">Serial Number</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(part, index) in filteredParts" :key="part.id">
-              <th scope="row">{{ index + 1 }}</th>
-              <td>{{ part.name }}</td>
-              <td>{{ part.serialnumber }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div v-else-if="selectedCar !== ''" class="mt-4">
-        <h3 class="text-center mb-4">No parts for Selected Car</h3>
-      </div>
-      <div v-else class="mt-4">
-        <h3 class="text-center mb-4">Select car</h3>
+    <div class="d-flex justify-content-center align-items-center mt-5">
+      <div>
+        <AlertComponent ref="alertComponent" />
+        <h1 class="text-center mb-4">Search</h1>
+        <div style="display: flex;">
+          <select v-model="selectedCar" class="form-select" aria-label="Default select example" style="margin-right: 10px;" @change="filterParts">
+            <option value="" selected>-- Select car --</option>
+            <option v-for="car in cars" :key="car.id" :value="car.id">{{ car.name }}</option>
+          </select>
+        </div>
+        <div v-if="filteredParts.length > 0" class="mt-4">
+          <h2 class="text-center mb-4">Parts for Selected Car</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Part Name</th>
+                <th scope="col">Serial Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(part, index) in filteredParts" :key="part.id">
+                <th scope="row">{{ index + 1 }}</th>
+                <td>{{ part.name }}</td>
+                <td>{{ part.serialnumber }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div v-else-if="selectedCar !== ''" class="mt-4">
+          <h3 class="text-center mb-4">No parts for Selected Car</h3>
+        </div>
+        <div v-else class="mt-4">
+          <h3 class="text-center mb-4">Select car</h3>
+        </div>
       </div>
     </div>
-  </div>
 </template>
   
   
