@@ -28,62 +28,51 @@
             </tbody>
           </table>
         </div>
-        <div v-else-if="selectedCar !== ''" class="mt-4">
-          <h3 class="text-center mb-4">No parts for Selected Car</h3>
-        </div>
-        <div v-else class="mt-4">
-          <h3 class="text-center mb-4">Select car</h3>
-        </div>
       </div>
     </div>
-</template>
+  </template>
   
-  
-<script>
+  <script>
   import axios from 'axios';
   
   export default {
-    name: 'Search', // Názov komponentu
+    name: 'Search',
     data() {
       return {
-        cars: [], // Zoznam áut
-        parts: [], // Zoznam dielov
-        selectedCar: '', // Vybrané auto
-        filteredParts: [], // Filtrované diely podľa vybraného auta
+        cars: [],
+        parts: [],
+        selectedCar: '',
+        filteredParts: [],
       };
     },
     methods: {
-      // Metóda na načítanie dielov z API
       async fetchParts() {
         try {
-          const response = await axios.get('/api/parts'); // Požiadavka na API pre načítanie dielov
-          this.parts = response.data; // Uloženie dielov do data vlastnosti
+          const response = await axios.get('/api/parts');
+          this.parts = response.data;
         } catch (error) {
-          console.error('Error fetching parts:', error); // Výpis chyby do konzoly v prípade zlyhania
+          console.error('Error fetching parts:', error);
         }
       },
-      // Metóda na načítanie áut z API
       async fetchCars() {
         try {
-          const response = await axios.get('/api/cars'); // Požiadavka na API pre načítanie áut
-          this.cars = response.data; // Uloženie áut do data vlastnosti
+          const response = await axios.get('/api/cars');
+          this.cars = response.data;
         } catch (error) {
-          console.error('Error fetching cars:', error); // Výpis chyby do konzoly v prípade zlyhania
+          console.error('Error fetching cars:', error);
         }
       },
-      // Metóda na filtrovanie dielov podľa vybraného auta
       filterParts() {
-        this.filteredParts = this.parts.filter(part => part.car_id === this.selectedCar); // Filtrovanie dielov podľa car_id
+        this.filteredParts = this.parts.filter(part => part.car_id === this.selectedCar);
       },
     },
-    // Životný cyklus komponentu - vykoná sa po pripojení komponentu do DOM
     async mounted() {
-      await this.fetchCars(); // Načítanie áut po pripojení komponentu
-      await this.fetchParts(); // Načítanie dielov po pripojení komponentu
+      await this.fetchCars();
+      await this.fetchParts();
     },
   };
-</script>
-
-<style scoped> 
-</style>
+  </script>
+  
+  <style scoped>
+  </style>
   

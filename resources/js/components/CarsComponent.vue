@@ -100,23 +100,23 @@
 
 
 <script>
-import axios from 'axios'; // Importovanie axios pre HTTP požiadavky
-import AlertComponent from './AlertComponent.vue'; // Importovanie komponentu AlertComponent
+import axios from 'axios';
+import AlertComponent from './AlertComponent.vue'; 
 
 export default {
-  name: 'Cars', // Názov komponentu
+  name: 'Cars',
   components: {
-    AlertComponent, // Definovanie AlertComponent ako vnútorný komponent
+    AlertComponent,
   },
   data() {
     return {
-      cars: [], // Zoznam áut
-      newCar: { // Nové auto na pridanie
+      cars: [],
+      newCar: {
         name: '',
         registration_number: '',
         is_registered: false
       },
-      currentCar: { // Aktuálne upravované auto
+      currentCar: {
         id: null,
         name: '',
         registration_number: '',
@@ -125,62 +125,64 @@ export default {
     };
   },
   created() {
-    // Životný cyklus komponentu - vykoná sa pri vytvorení komponentu
-    this.fetchCars(); // Načítanie áut
+    this.fetchCars();
   },
   methods: {
-    // Metóda na načítanie áut z API
     async fetchCars() {
       try {
-        const response = await axios.get('/api/cars'); // Požiadavka na API pre načítanie áut
-        this.cars = response.data; // Uloženie áut do data vlastnosti
+        const response = await axios.get('/api/cars');
+        this.cars = response.data;
       } catch (error) {
-        this.$refs.alertComponent.showAlert('Error fetching cars', 'danger'); // Zobrazenie alertu o chybe
+        this.$refs.alertComponent.showAlert('Error fetching cars', 'danger');
       }
     },
-    // Metóda na pridanie nového auta
     async addCar() {
       try {
-        const response = await axios.post('/api/cars', this.newCar); // Požiadavka na API pre pridanie auta
-        this.cars.push(response.data); // Pridanie nového auta do zoznamu
-        this.newCar = { name: '', registration_number: '', is_registered: false }; // Resetovanie formulára
-        this.$refs.alertComponent.showAlert('Car added successfully', 'success'); // Zobrazenie alertu o úspechu
+        const response = await axios.post('/api/cars', this.newCar);
+        this.cars.push(response.data);
+        this.newCar = { name: '', registration_number: '', is_registered: false };
+        this.$refs.alertComponent.showAlert('Car added successfully', 'success');
       } catch (error) {
-        this.$refs.alertComponent.showAlert('Error adding car', 'danger'); // Zobrazenie alertu o chybe
+        this.$refs.alertComponent.showAlert('Error adding car', 'danger');
       }
     },
-    // Metóda na potvrdenie zmazania auta
     confirmDelete(carId) {
-      if (confirm('Are you sure you want to delete this car?')) { // Potvrdenie zmazania
-        this.deleteCar(carId); // Zmazanie auta
+      if (confirm('Are you sure you want to delete this car?')) {
+        this.deleteCar(carId);
       }
     },
-    // Metóda na zmazanie auta
     async deleteCar(carId) {
       try {
-        await axios.delete(`/api/cars/${carId}`); // Požiadavka na API pre zmazanie auta
-        this.cars = this.cars.filter(car => car.id !== carId); // Odstránenie auta zo zoznamu
-        this.$refs.alertComponent.showAlert('Car deleted successfully', 'success'); // Zobrazenie alertu o úspechu
+        await axios.delete(`/api/cars/${carId}`);
+        this.cars = this.cars.filter(car => car.id !== carId);
+        this.$refs.alertComponent.showAlert('Car deleted successfully', 'success');
       } catch (error) {
-        this.$refs.alertComponent.showAlert('Error deleting car', 'danger'); // Zobrazenie alertu o chybe
+        this.$refs.alertComponent.showAlert('Error deleting car', 'danger');
       }
     },
-    // Metóda na otvorenie modálneho okna na úpravu auta
     openEditModal(car) {
-      this.currentCar = { ...car }; // Nastavenie aktuálne upravovaného auta
-      let modal = new bootstrap.Modal(document.getElementById('editCarModal')); // Získanie modálneho okna podľa ID
-      modal.show(); // Zobrazenie modálneho okna
+      this.currentCar = { ...car };
+      let modal = new bootstrap.Modal(document.getElementById('editCarModal'));
+      modal.show();
     },
-    // Metóda na aktualizáciu auta
     async updateCar() {
       try {
-        await axios.put(`/api/cars/${this.currentCar.id}`, this.currentCar); // Požiadavka na API pre aktualizáciu auta
-        this.cars.findIndex(car => car.id === this.currentCar.id); // Aktualizácia auta v zozname (môže byť redundantné)
-        this.fetchCars(); // Aktualizácia zoznamu áut
-        this.$refs.alertComponent.showAlert('Car updated successfully', 'success'); // Zobrazenie alertu o úspechu
+        await axios.put(`/api/cars/${this.currentCar.id}`, this.currentCar);
+        this.cars.findIndex(car => car.id === this.currentCar.id);
+        this.fetchCars();
+        this.$refs.alertComponent.showAlert('Car updated successfully', 'success');
       } catch (error) {
-        this.$refs.alertComponent.showAlert('Error updating car', 'danger'); // Zobrazenie alertu o chybe
+        this.$refs.alertComponent.showAlert('Error updating car', 'danger');
       }
+    },
+    openEditModal(car) {
+      this.currentCar.id = car.id;
+      this.currentCar.name = car.name;
+      this.currentCar.registration_number = car.registration_number;
+      this.currentCar.is_registered = car.is_registered === 1; 
+      
+      let modal = new bootstrap.Modal(document.getElementById('editCarModal'));
+      modal.show();
     }
   }
 };
