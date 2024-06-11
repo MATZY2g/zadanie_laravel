@@ -33,22 +33,29 @@ import Parts from './PartsComponent.vue';
 import Search from './SearchComponent.vue';
 
 export default {
+  // Definovanie komponentov
   components: {
     Cars,
     Parts,
     Search
   },
+  // Dátové vlastnosti komponentu
   data() {
     return {
+      // Aktuálne zvolená karta, predvolene 'cars'
       currentTab: 'cars'
     };
   },
+  // Vypočítané vlastnosti komponentu
   computed: {
+    // Vráti názov komponentu na základe aktuálnej karty
     currentTabComponent() {
       return this.currentTab === 'cars' ? 'Cars' : (this.currentTab === 'parts' ? 'Parts' : 'Search');
     }
   },
+  // Metódy komponentu
   methods: {
+    // Zmení aktuálnu kartu
     navigate(tab) {
       this.currentTab = tab;
     }
