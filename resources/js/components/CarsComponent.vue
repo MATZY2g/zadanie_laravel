@@ -179,8 +179,7 @@ export default {
       this.currentCar.id = car.id;
       this.currentCar.name = car.name;
       this.currentCar.registration_number = car.registration_number;
-      // Ensure currentCar.is_registered is boolean true/false based on your database value
-      this.currentCar.is_registered = car.is_registered === 1; // Assuming 1 represents true in your database
+      this.currentCar.is_registered = car.is_registered === 1; 
       
       let modal = new bootstrap.Modal(document.getElementById('editCarModal'));
       modal.show();
