@@ -181,7 +181,21 @@ export default {
       } catch (error) {
         this.$refs.alertComponent.showAlert('Error updating car', 'danger'); // Zobrazenie alertu o chybe
       }
+    },
+    async openEditModal(car) {
+      // Nastavenie vlastností aktuálneho vozidla na hodnoty poslaného automobilu
+      this.currentCar.id = car.id; // Nastavenie id vozidla
+      this.currentCar.name = car.name; // Nastavenie názvu vozidla
+      this.currentCar.registration_number = car.registration_number; // Nastavenie registračného čísla vozidla
+      // Nastavenie hodnoty is_registered na základe hodnoty poslaného automobilu
+      this.currentCar.is_registered = car.is_registered === 1; // Ak je is_registered 1, nastaví sa na true, inak na false
+
+      // Vytvorenie novej inštancie modálneho okna pomocou Bootstrap rozhrania
+      let modal = new bootstrap.Modal(document.getElementById('editCarModal'));
+      // Zobrazenie modálneho okna
+      modal.show();
     }
+
   }
 };
 </script>
