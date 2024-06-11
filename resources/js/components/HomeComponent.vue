@@ -1,23 +1,25 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
+  <div id="app">
+    
+    <NavBar />
+    <AlertComponent ref="alertComponent" />
 
-                    <div class="card-body">
-                        Welcome home.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
+import NavBar from './NavComponent.vue';
+import AlertComponent from './AlertComponent.vue'; 
+
+export default {
+  name: 'App',
+  components: {
+    NavBar,
+    AlertComponent
+    
+  }
+};
 </script>
+
+<style>
+</style>
