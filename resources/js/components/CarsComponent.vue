@@ -77,12 +77,12 @@
                   <label for="edit_name" class="form-label">Name <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="edit_name" v-model="currentCar.name" required>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 d-none d-lg-block">
                   <label for="edit_registration_number" class="form-label">Registration Number</label>
                   <input type="text" class="form-control" id="edit_registration_number" v-model="currentCar.registration_number" :required="currentCar.is_registered === 'yes'">
                 </div>
                 <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="edit_is_registered" v-model="currentCar.is_registered" :checked="currentCar.is_registered === 'yes'">
+                  <input type="checkbox" class="form-check-input" id="edit_is_registered" v-model="currentCar.is_registered">
                   <label class="form-check-label" for="edit_is_registered">Is Registered</label>
                 </div>
                 <div class="modal-footer">
@@ -174,6 +174,16 @@ export default {
       } catch (error) {
         this.$refs.alertComponent.showAlert('Error updating car', 'danger');
       }
+    },
+    openEditModal(car) {
+      this.currentCar.id = car.id;
+      this.currentCar.name = car.name;
+      this.currentCar.registration_number = car.registration_number;
+      // Ensure currentCar.is_registered is boolean true/false based on your database value
+      this.currentCar.is_registered = car.is_registered === 1; // Assuming 1 represents true in your database
+      
+      let modal = new bootstrap.Modal(document.getElementById('editCarModal'));
+      modal.show();
     }
   }
 };
