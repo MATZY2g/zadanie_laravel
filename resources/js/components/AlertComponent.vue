@@ -13,7 +13,7 @@
     data() {
       return {
         message: '',
-        type: 'success', // Can be 'success', 'danger', 'warning', etc.
+        type: 'success', 
         visible: false,
       };
     },
@@ -24,7 +24,7 @@
         this.visible = true;
         setTimeout(() => {
           this.visible = false;
-        }, 3000); // Alert will disappear after 3 seconds
+        }, 3000);
       },
       hideAlert() {
         this.visible = false;
