@@ -7,16 +7,16 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Serial Number</th>
-            <th>Car Id</th>
+            <th class="d-none d-lg-table-cell">Serial Number</th>
+            <th class="d-none d-lg-table-cell">Car Id</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="part in parts" :key="part.id">
             <td>{{ part.name }}</td>
-            <td>{{ part.serialnumber }}</td>
-            <td>{{ part.car_id }}</td>
+            <td class="d-none d-lg-table-cell">{{ part.serialnumber }}</td>
+            <td class="d-none d-lg-table-cell">{{ part.car_id }}</td>
             <td>
               <button class="btn btn-danger me-2" @click="confirmDelete(part.id)">Delete</button>
               <button class="btn btn-warning" @click="openEditModal(part)">Edit</button>
@@ -50,7 +50,7 @@
                   <input type="text" class="form-control" id="serialnumber" v-model="newPart.serialnumber" required>
                 </div>
                 <div class="mb-3">
-                  <label for="car_id" class="form-label">Car ID</label>
+                  <label for="car_id" class="form-label">Car ID<span class="text-danger">*</span></label>
                   <select class="form-select" id="car_id" v-model="newPart.car_id">
                     <option value="">Select a car</option>
                     <option v-for="car in cars" :value="car.id">{{ car.name }}</option>

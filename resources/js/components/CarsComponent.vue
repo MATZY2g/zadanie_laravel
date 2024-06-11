@@ -7,16 +7,16 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Registration Number</th>
-            <th>Is Registered</th>
+            <th class="d-none d-lg-table-cell">Registration Number</th>
+            <th class="d-none d-lg-table-cell">Is Registered</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="car in cars" :key="car.id">
             <td>{{ car.name }}</td>
-            <td>{{ car.registration_number }}</td>
-            <td>{{ car.is_registered ? 'Yes' : 'No' }}</td>
+            <td class="d-none d-lg-table-cell">{{ car.registration_number }}</td>
+            <td class="d-none d-lg-table-cell">{{ car.is_registered ? 'Yes' : 'No' }}</td>
             <td>
               <button class="btn btn-danger me-2" @click="confirmDelete(car.id)">Delete</button>
               <button class="btn btn-warning" @click="openEditModal(car)">Edit</button>
